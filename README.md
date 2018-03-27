@@ -9,62 +9,41 @@ implicated in a wide variety of syndromes that affected multiple organs.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+If you follow the below instructions it will allow you to install and run the training or testing.
 
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
-```
-Give examples
-```
+
+- [Python 3.6](https://www.python.org/downloads/release/python-360/)
+- [Anaconda](https://www.anaconda.com/) - Python Environment virtualization so that you dont mess up your system environment
+- [Keras](https://keras.io/) The best Deep Learning Tool PERIOD ;)
+- [Tensorflow](https://www.tensorflow.org/) One of the API used as Backend of Keras
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+### Anaconda
 
-Say what the step will be
+Anaconda is a complete Python distribution embarking automatically the most common packages, and allowing an easy installation of new packages.
 
-```
-Give the example
-```
+Download and install Anaconda from (https://www.continuum.io/downloads).
+The link for Linux,Mac and Windows are in the website.Following their instruction will install the tool.
 
-And repeat
+### Keras
 
-```
-until finished
-```
+You can install keras using ``` pip ``` on command line
+``` sudo pip install keras ```
 
-End with an example of getting some data out of the system or using it for a little demo
+The `environment.yml` file for conda is placed in [Extra](https://github.com/dsp-uga/team-huddle/tree/master/extra) for your ease of installation this has keras
 
-## Running the tests
+### Tensorflow
+Installing Tensorflow is straight forward using ``` pip ``` on command line
 
-Explain how to run the automated tests for this system
+* If CPU then  ``` sudo pip install tensorflow ```
+* If GPU then ``` sudo pip install tensorflow-gpu ```
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [GCP](cloud.google.com) - The Virtual Cloud Solution by google for Data Intensive work
-
+The `environment.yml` file for conda is placed in [Extra](https://github.com/dsp-uga/team-huddle/tree/master/extra) for your ease of installation this has tensorflow
 
 ## Authors
 
