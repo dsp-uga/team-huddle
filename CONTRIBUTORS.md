@@ -2,10 +2,12 @@
 # CONTRIBUTORS 
 
 ### Ankita Joshi
+ - Post-Processing
  - Tiramisu Network
 
 ### Parya Jandaghi
- - FCN 
+ - FCN
+ - U-net
 
 ### Nihal Soans
 - Project Management
