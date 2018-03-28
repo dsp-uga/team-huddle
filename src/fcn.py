@@ -21,6 +21,57 @@ import cv2
 import glob
 import h5py
 
+#loading data
+
+x_train = []
+y_train = []
+shapes = []
+X_test_data = []
+
+TRAINING_PATH = "/home/parya/datascience/p4/data/train/data"
+TEST_FOLDER = "/home/parya/datascience/p4/data/test/data"
+OUTPUT_FOLDER = "/home/parya/datascience/p4/output/"
+
+import random
+
+X_train_data = []
+Y_Train_data =[]
+for folder in sorted( os.listdir( TRAINING_PATH ) ):
+    xTrainFiles = random.sample( sorted(glob.glob ( os.path.join( TRAINING_PATH , folder+ "/*.png" ) )) , 10 )
+
+    Y_train_image = cv2.imread(os.path.join(TRAINING_PATH, folder + "/mask.png") , 0 )
+    Y_train_image = cv2.resize(Y_train_image, (512, 512))
+    Y_train_image = (Y_train_image == 2)
+    Y_train_image = Y_train_image.astype(int)
+
+    for myFile in xTrainFiles:
+        image = cv2.imread (myFile,1)
+        image=cv2.resize(image, (512, 512))
+        X_train_data.append (image)
+
+        Y_Train_data.append( Y_train_image )
+
+
+for folder in sorted(os.listdir(TEST_FOLDER)):
+    XTestFiles = sorted( glob.glob(os.path.join(TEST_FOLDER,  folder+ "/frame0050.png") ))
+
+    for myFile in XTestFiles :
+        image = cv2.imread(myFile, 1)
+        shapes.append( image.shape )
+        image = cv2.resize(image, (512, 512))
+        X_test_data.append(image)
+
+X_train = np.array( X_train_data )
+Y_train = np.array( Y_Train_data )
+X_test = np.array(X_test_data)
+
+
+# X_train=X_train.reshape(X_train.shape+(1,))
+Y_train=Y_train.reshape(Y_train.shape+(1,))
+# X_test=X_test.reshape(X_test.shape+(1,))
+
+print( X_train.shape , Y_train.shape , X_test.shape )
+
 smooth = 1.
 def dice_coef2(y_true, y_pred):
     y_true_f = K.flatten(y_true)
@@ -55,22 +106,6 @@ def dice_coef(y_true, y_pred):
 def dice_coef_loss(y_true, y_pred):
     return -dice_coef(y_true, y_pred)
 
-
-
-
-X_train=np.load('X_train.npy')
-y_train=np.load('Y_train.npy')
-X_test=np.load('X_test.npy')
-#y_test=np.array(Y_test_data)
-
-X_train=X_train.reshape(X_train.shape+(1,))
-y_train=y_train.reshape(y_train.shape+(1,))
-X_test=X_test.reshape(X_test.shape+(1,))
-#y_test=y_test.reshape(y_test.shape+(1,))
-
-
-print(X_train.shape)
-print(y_train.shape)
 
 weight_decay=0
 
@@ -212,7 +247,7 @@ class CroppingLike2D(Layer):
 
 
 # Block 1.
-img_input = Input(shape=(512,512,1))
+img_input = Input(shape=(512,512,3))
 block1_conv1 = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv1', kernel_regularizer=l2(weight_decay))(img_input)
 block1_conv2 = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv2', kernel_regularizer=l2(weight_decay))(block1_conv1)
 block1_pool = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(block1_conv2)
@@ -273,14 +308,15 @@ model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
 print(model.summary())
 
 # training network
-model.fit([X_train], [y_train], batch_size=8, epochs=10240, shuffle=True)
+model.fit([X_train], [Y_train], batch_size=16, epochs=10240, shuffle=True)
+model.save('ds-project4-fcn-b16ep10240.h5')
 
 
-#predicting/testing model out
+# post processing :
 predicted = model.predict(X_test)
-for i in range(0,len(X_test)):
-    img_temp =   predicted[i] * 255 #cv2.normalize( predicted[i] , alpha=0, beta=1 , norm_type=cv2.NORM_MINMAX, datatype=cv2.CV_32F )
-    cv2.imwrite("output/"+str(i)+".png",img_temp)
-
+for i in range ( len(shapes) ) :
+    image = (predicted[i]*255).astype(np.uint8)
+    image = cv2.resize(image, ( shapes[i][0], shapes[i][1]) , interpolation=cv2.INTER_AREA)
+    image = (image != 0).astype(int)*2
+    cv2.imwrite( os.path.join(OUTPUT_FOLDER,  names[i] +'.png' ) , image )
 print('done')
-print(predicted.shape)
