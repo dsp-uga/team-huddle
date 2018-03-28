@@ -15,7 +15,6 @@ If you follow the below instructions it will allow you to install and run the tr
 
 What things you need to install the software and how to install them
 
-
 - [Python 3.6](https://www.python.org/downloads/release/python-360/)
 - [Anaconda](https://www.anaconda.com/) - Python Environment virtualization so that you dont mess up your system environment
 - [Keras](https://keras.io/) The best Deep Learning Tool PERIOD ;)
@@ -23,27 +22,35 @@ What things you need to install the software and how to install them
 
 ### Installing
 
-### Anaconda
+#### Anaconda
 
 Anaconda is a complete Python distribution embarking automatically the most common packages, and allowing an easy installation of new packages.
 
 Download and install Anaconda from (https://www.continuum.io/downloads).
 The link for Linux,Mac and Windows are in the website.Following their instruction will install the tool.
 
-### Keras
+#### Keras
 
 You can install keras using ``` pip ``` on command line
 ``` sudo pip install keras ```
 
 The `environment.yml` file for conda is placed in [Extra](https://github.com/dsp-uga/team-huddle/tree/master/extra) for your ease of installation this has keras
 
-### Tensorflow
+#### Tensorflow
 Installing Tensorflow is straight forward using ``` pip ``` on command line
 
 * If CPU then  ``` sudo pip install tensorflow ```
 * If GPU then ``` sudo pip install tensorflow-gpu ```
 
 The `environment.yml` file for conda is placed in [Extra](https://github.com/dsp-uga/team-huddle/tree/master/extra) for your ease of installation this has tensorflow
+
+#### Downloading the dataset (Optional)
+
+If you prefer to download the dataset rather than online
+The code is present in extra/downloadfiles.py
+
+To Run ``` python downloadfiles.py ``` This will download the whole data set including training and testing
+
 
 ## Authors
 
