@@ -26,6 +26,7 @@ import h5py
 x_train = []
 y_train = []
 shapes = []
+names=[]
 X_test_data = []
 
 TRAINING_PATH = "/home/parya/datascience/p4/data/train/data"
@@ -36,6 +37,7 @@ import random
 
 X_train_data = []
 Y_Train_data =[]
+
 for folder in sorted( os.listdir( TRAINING_PATH ) ):
     xTrainFiles = random.sample( sorted(glob.glob ( os.path.join( TRAINING_PATH , folder+ "/*.png" ) )) , 10 )
 
@@ -56,10 +58,14 @@ for folder in sorted(os.listdir(TEST_FOLDER)):
     XTestFiles = sorted( glob.glob(os.path.join(TEST_FOLDER,  folder+ "/frame0050.png") ))
 
     for myFile in XTestFiles :
+        names.append( myFile[ -78 :-14 ] )
+
         image = cv2.imread(myFile, 1)
-        shapes.append( image.shape )
+        shapes.append( (image.shape[0], image.shape[1]) )
+
         image = cv2.resize(image, (512, 512))
         X_test_data.append(image)
+        
 
 X_train = np.array( X_train_data )
 Y_train = np.array( Y_Train_data )
@@ -116,7 +122,7 @@ import keras_fcn.backend as K1
 from keras.utils import conv_utils
 from keras.engine.topology import Layer
 from keras.engine import InputSpec
-
+from keras.models import load_model
 
 class BilinearUpSampling2D(Layer):
     """Upsampling2D with bilinear interpolation."""
@@ -307,16 +313,20 @@ model = Model(inputs=[img_input], outputs=output)
 model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
 print(model.summary())
 
+if os.path.isfile( 'ds-project4-fcn-b16ep124.h5'): 
+    model = load_model( 'ds-project4-fcn-b16ep124.h5' ,custom_objects=
+    { 'BilinearUpSampling2D':BilinearUpSampling2D,'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
+else :
 # training network
-model.fit([X_train], [Y_train], batch_size=16, epochs=10240, shuffle=True)
-model.save('ds-project4-fcn-b16ep10240.h5')
+    model.fit([X_train], [Y_train], batch_size=16, epochs=10240, shuffle=True)
+    model.save('ds-project4-fcn-b16ep124.h5')
 
 
 # post processing :
 predicted = model.predict(X_test)
 for i in range ( len(shapes) ) :
     image = (predicted[i]*255).astype(np.uint8)
-    image = cv2.resize(image, ( shapes[i][0], shapes[i][1]) , interpolation=cv2.INTER_AREA)
+    image = cv2.resize(image, ( shapes[i][1], shapes[i][0]) , interpolation=cv2.INTER_AREA)
     image = (image != 0).astype(int)*2
     cv2.imwrite( os.path.join(OUTPUT_FOLDER,  names[i] +'.png' ) , image )
 print('done')
