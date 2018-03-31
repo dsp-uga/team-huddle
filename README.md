@@ -69,7 +69,7 @@ See also the list of [contributors](https://github.com/dsp-uga/team-huddle/blob/
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## Acknowledgments and References
 
 * Hat tip to anyone who's code was used
 
