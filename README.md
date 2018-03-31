@@ -51,6 +51,8 @@ The code is present in extra/downloadfiles.py
 
 To Run ``` python downloadfiles.py ``` This will download the whole data set including training and testing
 
+In Folders ```\Train``` and ```\Test``` respectively
+
 
 ## Authors
 
