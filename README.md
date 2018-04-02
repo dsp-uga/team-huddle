@@ -55,6 +55,26 @@ In Folders ```\Train``` and ```\Test``` respectively
 
 ## Running and Training
 
+One can run `findcilia.py` via regular **python** 
+
+```
+$ python findcilia.py [train or Test] [Network] [optional args]
+```
+Example: ```python findcilia.py train FCN ```
+
+  - **Required Arguments**
+
+    - `trainortest`: This is a string either train or test
+
+    - `network`: String which defines which network you want ot train or test Eg: FCN ,U-net,Tiramisu
+
+  - **Optional Arguments**
+
+    - `-batch-size`: The batch size if applicable (Default: `20`)
+    - `-masks`: Path to the masks directory where masks are present. (Default: `train\masks`)
+    - `-dataset`: Path to the dataset directory where train dataset is present. (Default: `train\`)
+
+
 ## Results
 
 ## Authors
