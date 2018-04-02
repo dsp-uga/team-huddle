@@ -1,5 +1,7 @@
 # Cilia Segmentation
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 The task is to design an algorithm that learns how to segment cilia. Cilia are microscopic
 hairlike structures that protrude from literally every cell in your body. They beat
 in regular, rhythmic patterns to perform myriad tasks, from moving nutrients in to moving
