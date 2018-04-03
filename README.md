@@ -55,6 +55,20 @@ To Run ``` python downloadfiles.py ``` This will download the whole data set inc
 
 In Folders ```\Train``` and ```\Test``` respectively
 
+## Data
+The data itself are grayscale 8-bit images taken with DIC optics of cilia biopsies published
+in this 2015 study. For each video, you are provided 100 subsequent frames, which
+is roughly equal to about 0.5 seconds of real-time video (the framerate of each video is
+200 fps). Since the videos are grayscale, if you read a single frame in and notice its data
+structure contains three color channels, you can safely pick one and drop the other two.
+Same goes for the masks.
+Speaking of the masks: each mask is the same spatial dimensions (height, width) as the
+corresponding video. Each pixel, however, is colored according to what it contains in the
+video:
+* 2 corresponds to cilia (what you want to predict!)
+* 1 corresponds to a cell
+* 0 corresponds to background (neither a cell nor cilia)
+
 ## Running and Training
 
 One can run `findcilia.py` via regular **python** 
@@ -94,6 +108,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments and References
 
 * Hat tip to anyone who's code was used
+* The project4 description used in Data Science Practicum [pdf](https://github.com/dsp-uga/sp18/blob/master/projects/p4/project4.pdf)
 * An implementation of Fully Convolutional Networks with Keras [link](https://github.com/JihongJu/keras-fcn)
 
 
