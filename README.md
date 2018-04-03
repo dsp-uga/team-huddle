@@ -69,6 +69,8 @@ video:
 * 1 corresponds to a cell
 * 0 corresponds to background (neither a cell nor cilia)
 
+For more information please refer to our [wiki](https://github.com/dsp-uga/team-huddle/wiki) on [data](https://github.com/dsp-uga/team-huddle/wiki/Data)
+
 ## Running and Training
 
 One can run `findcilia.py` via regular **python** 
