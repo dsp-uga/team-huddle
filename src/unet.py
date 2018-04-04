@@ -173,10 +173,6 @@ def UNet(input_shape,learn_rate=1e-3):
     return model
 
 
-X_train=X_train.reshape(X_train.shape+(1,))
-y_train=y_train.reshape(y_train.shape+(1,))
-X_test=X_test.reshape(X_test.shape+(1,))
-
 model=UNet(input_shape=(512,512,1))
 print(model.summary())
 
