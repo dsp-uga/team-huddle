@@ -32,7 +32,8 @@ X_test_data = []
 args=None
 if args is None:
     args = sys.argv[1:]
-parser = argparse.ArgumentParser(description='Simple training script for training a Cilia detection network.')
+parser = argparse.ArgumentParser(description='FCN Module.')
+parser.add_argument('tt', help='Train or test', default=0, type=int)
 parser.add_argument('trainingdir', help='The Directory containing the Training Data', default="data/test/data", type=str)
 parser.add_argument('testdir', help='The Directory containing the Testing Data.', default='data/train/data', type=str)
 parser.add_argument('outputdir', help='The Directory for the output masks', default='output/', type=str)
@@ -335,10 +336,11 @@ else :
 
 
 # post processing :
-predicted = model.predict(X_test)
-for i in range ( len(shapes) ) :
-    image = (predicted[i]*255).astype(np.uint8)
-    image = cv2.resize(image, ( shapes[i][1], shapes[i][0]) , interpolation=cv2.INTER_AREA)
-    image = (image != 0).astype(int)*2
-    cv2.imwrite( os.path.join(OUTPUT_FOLDER,  names[i] +'.png' ) , image )
+if argsi.tt == 1:
+    predicted = model.predict(X_test)
+    for i in range(len(shapes)):
+        image = (predicted[i] * 255).astype(np.uint8)
+        image = cv2.resize(image, (shapes[i][1], shapes[i][0]), interpolation=cv2.INTER_AREA)
+        image = (image != 0).astype(int) * 2
+        cv2.imwrite(os.path.join(OUTPUT_FOLDER, names[i] + '.png'), image)
 print('done')
