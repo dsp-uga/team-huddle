@@ -20,6 +20,61 @@ import glob
 import h5py
 
 
+#loading data
+
+x_train = []
+y_train = []
+shapes = []
+names=[]
+X_test_data = []
+
+TRAINING_PATH = "/home/parya/datascience/p4/data/train/data"
+TEST_FOLDER = "/home/parya/datascience/p4/data/test/data"
+OUTPUT_FOLDER = "/home/parya/datascience/p4/output/"
+
+import random
+
+X_train_data = []
+Y_Train_data =[]
+
+for folder in sorted( os.listdir( TRAINING_PATH ) ):
+    xTrainFiles = random.sample( sorted(glob.glob ( os.path.join( TRAINING_PATH , folder+ "/*.png" ) )) , 10 )
+
+    Y_train_image = cv2.imread(os.path.join(TRAINING_PATH, folder + "/mask.png") , 0 )
+    Y_train_image = cv2.resize(Y_train_image, (512, 512))
+    Y_train_image = (Y_train_image == 2)
+    Y_train_image = Y_train_image.astype(int)
+
+    for myFile in xTrainFiles:
+        image = cv2.imread (myFile,1)
+        image=cv2.resize(image, (512, 512))
+        X_train_data.append (image)
+
+        Y_Train_data.append( Y_train_image )
+
+
+for folder in sorted(os.listdir(TEST_FOLDER)):
+    XTestFiles = sorted( glob.glob(os.path.join(TEST_FOLDER,  folder+ "/frame0050.png") ))
+
+    for myFile in XTestFiles :
+        names.append( myFile[ -78 :-14 ] )
+
+        image = cv2.imread(myFile, 1)
+        shapes.append( (image.shape[0], image.shape[1]) )
+
+        image = cv2.resize(image, (512, 512))
+        X_test_data.append(image)
+        
+
+X_train = np.array( X_train_data )
+Y_train = np.array( Y_Train_data )
+X_test = np.array(X_test_data)
+
+
+Y_train=Y_train.reshape(Y_train.shape+(1,))
+
+print( X_train.shape , Y_train.shape , X_test.shape )
+
 smooth = 1.
 def dice_coef(y_true, y_pred):
     y_true_f = K.flatten(y_true)
@@ -48,8 +103,6 @@ def UNet(input_shape,learn_rate=1e-3):
     conv1 = bn()(conv1)
     pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
     pool1 = Dropout(DropP)(pool1)
-
-
 
 
 
@@ -120,10 +173,6 @@ def UNet(input_shape,learn_rate=1e-3):
     return model
 
 
-X_train=np.load('X_train.npy')
-y_train=np.load('Y_train.npy')
-X_test=np.load('X_test.npy')
-
 X_train=X_train.reshape(X_train.shape+(1,))
 y_train=y_train.reshape(y_train.shape+(1,))
 X_test=X_test.reshape(X_test.shape+(1,))
@@ -134,15 +183,21 @@ print(model.summary())
 print(X_train.shape)
 print(y_train.shape)
 
-model.fit([X_train], [y_train], batch_size=4, epochs=1024, shuffle=True)
-model.save('ds-unet-batch8-epoch1024.h5')
+if os.path.isfile( 'ds-project4-unet-b16ep620.h5'): 
+    model = load_model( 'ds-project4-unet-b16ep620.h5' ,custom_objects=
+    { 'BilinearUpSampling2D':BilinearUpSampling2D,'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
+else :
+# training network
+    model.fit([X_train], [Y_train], batch_size=16, epochs=620, shuffle=True)
+    model.save('ds-project4-unet-b16ep620.h5')
 
+
+# post processing :
 predicted = model.predict(X_test)
-for i in range(0,len(X_test)):
-    img_temp =   predicted[i] * 255 #cv2.normalize( predicted[i] , alpha=0, beta=1 , norm_type=cv2.NORM_MINMAX, datatype=cv2.CV_32F )
-    cv2.imwrite("output/"+str(i)+".png",img_temp)
-
+for i in range ( len(shapes) ) :
+    image = (predicted[i]*255).astype(np.uint8)
+    image = cv2.resize(image, ( shapes[i][1], shapes[i][0]) , interpolation=cv2.INTER_AREA)
+    image = (image != 0).astype(int)*2
+    cv2.imwrite( os.path.join(OUTPUT_FOLDER,  names[i] +'.png' ) , image )
 print('done')
-print(predicted.shape)
-
     
