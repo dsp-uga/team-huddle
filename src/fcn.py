@@ -29,9 +29,21 @@ shapes = []
 names=[]
 X_test_data = []
 
-TRAINING_PATH = "/home/parya/datascience/p4/data/train/data"
-TEST_FOLDER = "/home/parya/datascience/p4/data/test/data"
-OUTPUT_FOLDER = "/home/parya/datascience/p4/output/"
+args=None
+if args is None:
+    args = sys.argv[1:]
+parser = argparse.ArgumentParser(description='Simple training script for training a Cilia detection network.')
+parser.add_argument('trainingdir', help='The Directory containing the Training Data', default="data/test/data", type=str)
+parser.add_argument('testdir', help='The Directory containing the Testing Data.', default='data/train/data', type=str)
+parser.add_argument('outputdir', help='The Directory for the output masks', default='output/', type=str)
+parser.add_argument('batchsize', help='Batch Size for training.', default=32, type=int)
+parser.add_argument('epochs', help='No of epochs for training', default=100, type=int)
+argsi =  parser.parse_args(args)
+TRAINING_PATH =argsi.trainingdir
+TEST_FOLDER = argsi.testdir
+OUTPUT_FOLDER = argsi.outputdir
+BATCH_SIZE=argsi.batchsize
+EPOCHST=argsi.epochs
 
 import random
 
@@ -318,7 +330,7 @@ if os.path.isfile( 'ds-project4-fcn-b16ep124.h5'):
     { 'BilinearUpSampling2D':BilinearUpSampling2D,'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
 else :
 # training network
-    model.fit([X_train], [Y_train], batch_size=16, epochs=10240, shuffle=True)
+    model.fit([X_train], [Y_train], batch_size=BATCH_SIZE, epochs=EPOCHST, shuffle=True)
     model.save('ds-project4-fcn-b16ep124.h5')
 
 
