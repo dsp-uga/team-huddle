@@ -177,15 +177,15 @@ def UNet(input_shape,learn_rate=1e-3):
 model=UNet(input_shape=(512,512,3))
 print(model.summary())
 
-if os.path.isfile( 'ds-project4-unet-b4ep50.h5'): 
-    model = load_model( 'ds-project4-unet-b4ep50.h5' ,custom_objects=
+if os.path.isfile( 'ds-project4-unet-b4ep100.h5'): 
+    model = load_model( 'ds-project4-unet-b4ep100.h5' ,custom_objects=
     {'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
-    model.fit([X_train], [Y_train], batch_size=4, epochs=50, shuffle=True)
-    model.save('ds-project4-unet-b4ep100.h5')
+    model.fit([X_train], [Y_train], batch_size=4, epochs=30, shuffle=True)
+    model.save('ds-project4-unet-b4ep130.h5')
 else :
 # training network
-    model.fit([X_train], [Y_train], batch_size=4, epochs=100, shuffle=True)
-    model.save('ds-project4-unet-b4ep100.h5')
+    model.fit([X_train], [Y_train], batch_size=4, epochs=130, shuffle=True)
+    model.save('ds-project4-unet-b4ep130.h5')
 
 
 # post processing :
