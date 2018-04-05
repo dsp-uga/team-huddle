@@ -103,7 +103,19 @@ Example: ```python findcilia.py train FCN ```
 
 
 ## Results
-### FCN
+
+We have used multiple networks and below are the results followed by the person resonsible for that result
+
+Method| Configuration | Dice (training) | Dice (testing) | Personnel 
+--- | --- | --- | --- | ---
+FCN  | #epochs:124, #batch:16 | N/A | 0.243 | [parya-j](https://github.com/parya-j)
+
+
+Method| Configuration | Dice (training) | Dice (testing) |Personnel
+--- | --- | --- | --- | ---
+U-Net| #epochs:50, #batch:8 | 0.79 | 0.247 | [parya-j](https://github.com/parya-j)
+U-Net| #epochs:100, #batch:8 | 0.91 | 0.258 | [parya-j](https://github.com/parya-j)
+
 ## Authors
 
 * **Ankita Joshi** - [AnkitaJo](https://github.com/AnkitaJo)
