@@ -30,6 +30,15 @@ Anaconda is a complete Python distribution embarking automatically the most comm
 
 Download and install Anaconda from (https://www.continuum.io/downloads).
 The link for Linux,Mac and Windows are in the website.Following their instruction will install the tool.
+##### Running Environment
+
+* Once Anaconda is installed open anaconda prompt(Windows/PC) Command Line shell(Mac OSX or Unix)
+* Run ```conda env create -f environment.yml``` will install all packages required for all programs in this repository
+###### To start the environment 
+
+* For Unix like systems ```source activate cilia-env```
+
+* For PC like systems ```activate cilia-env```
 
 #### Keras
 
