@@ -12,6 +12,7 @@ from keras import regularizers
 from keras import backend as K
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
+from keras.models import load_model
 from keras.layers.merge import add
 import numpy as np
 from keras.regularizers import l2
@@ -178,9 +179,9 @@ print(model.summary())
 
 if os.path.isfile( 'ds-project4-unet-b4ep50.h5'): 
     model = load_model( 'ds-project4-unet-b4ep50.h5' ,custom_objects=
-    { 'BilinearUpSampling2D':BilinearUpSampling2D,'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
+    {'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
     model.fit([X_train], [Y_train], batch_size=4, epochs=50, shuffle=True)
-    model.save('ds-project4-unet-b4ep50.h5')
+    model.save('ds-project4-unet-b4ep100.h5')
 else :
 # training network
     model.fit([X_train], [Y_train], batch_size=4, epochs=100, shuffle=True)
