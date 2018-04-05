@@ -1,5 +1,7 @@
 # Cilia Segmentation
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 The task is to design an algorithm that learns how to segment cilia. Cilia are microscopic
 hairlike structures that protrude from literally every cell in your body. They beat
 in regular, rhythmic patterns to perform myriad tasks, from moving nutrients in to moving
@@ -28,6 +30,15 @@ Anaconda is a complete Python distribution embarking automatically the most comm
 
 Download and install Anaconda from (https://www.continuum.io/downloads).
 The link for Linux,Mac and Windows are in the website.Following their instruction will install the tool.
+##### Running Environment
+
+* Once Anaconda is installed open anaconda prompt(Windows/PC) Command Line shell(Mac OSX or Unix)
+* Run ```conda env create -f environment.yml``` will install all packages required for all programs in this repository
+###### To start the environment 
+
+* For Unix like systems ```source activate cilia-env```
+
+* For PC like systems ```activate cilia-env```
 
 #### Keras
 
@@ -51,6 +62,47 @@ The code is present in extra/downloadfiles.py
 
 To Run ``` python downloadfiles.py ``` This will download the whole data set including training and testing
 
+In Folders ```\Train``` and ```\Test``` respectively
+
+## Data
+The data itself are grayscale 8-bit images taken with DIC optics of cilia biopsies published
+in this 2015 study. For each video, you are provided 100 subsequent frames, which
+is roughly equal to about 0.5 seconds of real-time video (the framerate of each video is
+200 fps). Since the videos are grayscale, if you read a single frame in and notice its data
+structure contains three color channels, you can safely pick one and drop the other two.
+Same goes for the masks.
+Speaking of the masks: each mask is the same spatial dimensions (height, width) as the
+corresponding video. Each pixel, however, is colored according to what it contains in the
+video:
+* 2 corresponds to cilia (what you want to predict!)
+* 1 corresponds to a cell
+* 0 corresponds to background (neither a cell nor cilia)
+
+For more information please refer to our [wiki](https://github.com/dsp-uga/team-huddle/wiki) on [data](https://github.com/dsp-uga/team-huddle/wiki/Data)
+
+## Running and Training
+
+One can run `findcilia.py` via regular **python** 
+
+```
+$ python findcilia.py [train or Test] [Network] [optional args]
+```
+Example: ```python findcilia.py train FCN ```
+
+  - **Required Arguments**
+
+    - `trainortest`: This is a string either train or test
+
+    - `network`: String which defines which network you want ot train or test Eg: FCN ,U-net,Tiramisu
+
+  - **Optional Arguments**
+
+    - `-batch-size`: The batch size if applicable (Default: `20`)
+    - `-masks`: Path to the masks directory where masks are present. (Default: `train\masks`)
+    - `-dataset`: Path to the dataset directory where train dataset is present. (Default: `train\`)
+
+
+## Results
 
 ## Authors
 
@@ -64,8 +116,10 @@ See also the list of [contributors](https://github.com/dsp-uga/team-huddle/blob/
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## Acknowledgments and References
 
 * Hat tip to anyone who's code was used
+* The project4 description used in Data Science Practicum [pdf](https://github.com/dsp-uga/sp18/blob/master/projects/p4/project4.pdf)
+* An implementation of Fully Convolutional Networks with Keras [link](https://github.com/JihongJu/keras-fcn)
 
 
