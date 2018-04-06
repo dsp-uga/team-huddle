@@ -45,7 +45,7 @@ The link for Linux,Mac and Windows are in the website.Following their instructio
 You can install keras using ``` pip ``` on command line
 ``` sudo pip install keras ```
 
-The `environment.yml` file for conda is placed in [Extra](https://github.com/dsp-uga/team-huddle/tree/master/extra) for your ease of installation this has keras
+The `environment.yml` file for conda is placed in [Extra](https://github.com/dsp-uga/team-huddle/tree/master/extra) for your ease of installation this has keras 
 
 #### Tensorflow
 Installing Tensorflow is straight forward using ``` pip ``` on command line

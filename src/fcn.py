@@ -20,6 +20,7 @@ from keras.regularizers import l2
 import cv2
 import glob
 import h5py
+from common import RedirectModel
 
 #loading data
 
@@ -47,6 +48,24 @@ BATCH_SIZE=argsi.batchsize
 EPOCHST=argsi.epochs
 
 import random
+
+def create_callbacks(model, prediction_model):
+    callbacks = []
+    snapshot_path="./"
+    # save the prediction mode
+    # ensure directory created first; otherwise h5py will error after epoch.
+    os.makedirs(snapshot_path, exist_ok=True)
+    checkpoint = ModelCheckpoint(
+                os.path.join(
+            snapshot_path,
+            'FCN_{{epoch:02d}}.h5'
+        ),
+        verbose=1
+    )
+    checkpoint = RedirectModel(checkpoint, prediction_model)
+    callbacks.append(checkpoint)
+
+return callbacks
 
 X_train_data = []
 Y_Train_data =[]
@@ -331,7 +350,7 @@ if os.path.isfile( 'ds-project4-fcn-b16ep124.h5'):
     { 'BilinearUpSampling2D':BilinearUpSampling2D,'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
 else :
 # training network
-    model.fit([X_train], [Y_train], batch_size=BATCH_SIZE, epochs=EPOCHST, shuffle=True)
+    model.fit([X_train], [Y_train], batch_size=BATCH_SIZE, epochs=EPOCHST, shuffle=True,callbacks=create_callbacks(model))
     model.save('ds-project4-fcn-b16ep124.h5')
 
 
