@@ -105,16 +105,23 @@ Example: ```python findcilia.py train FCN ```
 ## Results
 
 We have used multiple networks and below are the results followed by the person resonsible for that result
-
 Method| Configuration | Dice (training) | Dice (testing) | Personnel 
 --- | --- | --- | --- | ---
-FCN  | #epochs:124, #batch:16 | N/A | 0.243 | [parya-j](https://github.com/parya-j)
+FCN  | #epochs:124, #batch:16 | 0.925 | 0.243 | [parya-j](https://github.com/parya-j)
+FCN  | #epochs:134, #batch:8 | 0.928 | 0.233 | [parya-j](https://github.com/parya-j)
 
 
 Method| Configuration | Dice (training) | Dice (testing) |Personnel
 --- | --- | --- | --- | ---
 U-Net| #epochs:50, #batch:8 | 0.79 | 0.247 | [parya-j](https://github.com/parya-j)
 U-Net| #epochs:100, #batch:8 | 0.91 | 0.258 | [parya-j](https://github.com/parya-j)
+U-Net| #epochs:130, #batch:8 | 0.934 | 0.276 | [parya-j](https://github.com/parya-j)
+U-Net| #epochs:150, #batch:8 | 0.946 | 0.273 | [parya-j](https://github.com/parya-j)
+U-Net| #epochs:160, #batch:8 | 0.948 | 0.264 | [parya-j](https://github.com/parya-j)
+
+Method| Configuration | Dice (training) | Dice (testing) | Personnel 
+--- | --- | --- | --- | ---
+Optical Flow  | Not Applicable | - | - | [AnkitaJo](https://github.com/AnkitaJo)
 
 ## Authors
 
