@@ -105,6 +105,7 @@ Example: ```python findcilia.py train FCN ```
 ## Results
 
 We have used multiple networks and below are the results followed by the person resonsible for that result
+
 Method| Configuration | Dice (training) | Dice (testing) | Personnel 
 --- | --- | --- | --- | ---
 FCN  | #epochs:124, #batch:16 | 0.925 | 0.243 | [parya-j](https://github.com/parya-j)
