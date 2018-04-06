@@ -29,9 +29,25 @@ shapes = []
 names=[]
 X_test_data = []
 
-TRAINING_PATH = "/home/parya/datascience/p4/data/train/data"
-TEST_FOLDER = "/home/parya/datascience/p4/data/test/data"
-OUTPUT_FOLDER = "/home/parya/datascience/p4/output/"
+args=None
+if args is None:
+    args = sys.argv[1:]
+parser = argparse.ArgumentParser(description='FCN Module.')
+parser.add_argument('tt', help='Train or test', default=0, type=int)
+parser.add_argument('trainingdir', help='The Directory containing the Training Data', default="data/test/data", type=str)
+parser.add_argument('testdir', help='The Directory containing the Testing Data.', default='data/train/data', type=str)
+parser.add_argument('outputdir', help='The Directory for the output masks', default='output/', type=str)
+parser.add_argument('batchsize', help='Batch Size for training.', default=32, type=int)
+parser.add_argument('epochs', help='No of epochs for training', default=100, type=int)
+parser.add_argument('--loadmodel', help='Pre-Trainined model ', default="ds-project4-unet-b4ep150.h5", type=str)
+argsi =  parser.parse_args(args)
+TRAINING_PATH =argsi.trainingdir
+TEST_FOLDER = argsi.testdir
+OUTPUT_FOLDER = argsi.outputdir
+BATCH_SIZE=argsi.batchsize
+EPOCHST=argsi.epochs
+PRE-MODEL = argsi.loadmodel
+
 
 import random
 
@@ -177,15 +193,15 @@ def UNet(input_shape,learn_rate=1e-3):
 model=UNet(input_shape=(512,512,3))
 print(model.summary())
 
-if os.path.isfile( 'ds-project4-unet-b4ep150.h5'): 
-    model = load_model( 'ds-project4-unet-b4ep150.h5' ,custom_objects=
+if os.path.isfile( PRE-MODEL): 
+    model = load_model( PRE-MODEL ,custom_objects=
     {'dice_coef_loss':dice_coef_loss,'dice_coef':dice_coef})
-    model.fit([X_train], [Y_train], batch_size=4, epochs=10, shuffle=True)
+    model.fit([X_train], [Y_train], batch_size=BATCH_SIZE, epochs=EPOCHST, shuffle=True)
     model.save('ds-project4-unet-b4ep140.h5')
 else :
 # training network
-    model.fit([X_train], [Y_train], batch_size=4, epochs=140, shuffle=True)
-    model.save('ds-project4-unet-b4ep140.h5')
+    model.fit([X_train], [Y_train], batch_size=BATCH_SIZE, epochs=EPOCHST, shuffle=True)
+    model.save(PRE-MODEL)
 
 
 # post processing :

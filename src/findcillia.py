@@ -25,6 +25,7 @@ def main(args=None):
         # Then depending on the model that model will be trained
         if args.network == "U-net":
             print("Training Unet")
+            os.system("python unet.py 0 "+args.trainingdir+" "+args.testdir+" "+args.outputdir+" "+args.batchsize+ " "+args.noepoch)
         elif args.network == "FCN":
             print("Training FCN")
             os.system("python fcn.py 0 "+args.trainingdir+" "+args.testdir+" "+args.outputdir+" "+args.batchsize+ " "+args.noepoch)
@@ -38,6 +39,7 @@ def main(args=None):
          # Then depending on the model that model will be trained
         if args.network == "U-net":
             print("Testing Unet")
+            os.system("python fcn.py 1 " + args.trainingdir + " " + args.testdir + " " + args.outputdir + " " + args.batchsize + " " + args.noepoch)
         elif args.network == "FCN":
             print("Testing FCN")
             os.system("python fcn.py 1 " + args.trainingdir + " " + args.testdir + " " + args.outputdir + " " + args.batchsize + " " + args.noepoch)
