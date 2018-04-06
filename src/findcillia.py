@@ -21,25 +21,29 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
     args = get_args(args)
-    if args.trainortest == "train":
+    if args.trainortest == "train": # first checks if we want to train or only test
+        # Then depending on the model that model will be trained
         if args.network == "U-net":
             print("Training Unet")
         elif args.network == "FCN":
             print("Training FCN")
             os.system("python fcn.py 0 "+args.trainingdir+" "+args.testdir+" "+args.outputdir+" "+args.batchsize+ " "+args.noepoch)
-        elif args.network == "tiramisu":
-            print("training tiramisu")
+        elif args.network == "opticalflow":
+            print("Using optical-flow")
+            os.system("python optical.py")
         else:
             print("Network not implimeneted")
             exit(0)
     elif args.trainortest == "test":
+         # Then depending on the model that model will be trained
         if args.network == "U-net":
             print("Testing Unet")
         elif args.network == "FCN":
             print("Testing FCN")
             os.system("python fcn.py 1 " + args.trainingdir + " " + args.testdir + " " + args.outputdir + " " + args.batchsize + " " + args.noepoch)
-        elif args.network == "tiramisu":
-            print("testing tiramisu")
+        elif args.network == "opticalflow":
+            print("Using optical-flow")
+            os.system("python optical.py")
         else:
             print("Network not implimeneted")
             exit(0)
